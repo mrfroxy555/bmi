@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Kalkulátor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #000000, #0077be);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            color: #000000;
+        }
+
+        button {
+            background-color: #0077be;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #005a8c;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .quote {
+            margin-top: 30px;
+            font-style: italic;
+            color: #cccccc;
+            text-align: center;
+        }
+
+        a {
+            color: #0077be;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BMI Kalkulátor</h1>
+        <div class="input-group">
+            <label for="suly">Súly (kg):</label>
+            <input type="number" id="suly" placeholder="pl. 70">
+        </div>
+        <div class="input-group">
+            <label for="magassag">Magasság (cm):</label>
+            <input type="number" id="magassag" placeholder="pl. 175">
+        </div>
+        <button onclick="szamitas()">Számítás</button>
+        <div id="result"></div>
+    </div>
+    
+    <div class="quote">
+        "Az egészség nem minden, de egészség nélkül minden semmi." - Arthur Schopenhauer
+    </div>
+
+    <script>
+        function szamitas() {
+            const suly = parseFloat(document.getElementById('suly').value);
+            const magassag = parseFloat(document.getElementById('magassag').value) / 100; // cm to m
+
+            if (isNaN(suly) || isNaN(magassag) || suly <= 0 || magassag <= 0) {
+                document.getElementById('result').innerHTML = 'Kérjük, adjon meg érvényes súlyt és magasságot!';
+                return;
+            }
+
+            const bmi = suly / (magassag * magassag);
+            let category;
+            let link;
+
+            if (bmi < 18.5) {
+                category = "Alulsúlyos";
+                link = "https://kirsche.hu/5-egeszseges-modszer-a-hizasra-ha-alulsulyos-mondja-az-orvos/#:~:text=N%C3%A9h%C3%A1ny%20ember%20sz%C3%A1m%C3%A1ra%20ugyanolyan%20neh%C3%A9z%20lehet";
+            } else if (bmi < 25) {
+                category = "Normál testsúly";
+                link = "https://www.webbeteg.hu/cikkek/egeszsegedre/16099/az-idealis-testtomeg#:~:text=Ha%20a%20magass%C3%A1gunkhoz%20viszony%C3%ADtva%20az%20ide%C3%A1lis,";
+            } else if (bmi < 30) {
+                category = "Túlsúlyos";
+                link = "https://egeszsegvonal.gov.hu/t-ty/1718-tulsuly-es-elhizas.html";
+            } else {
+                category = "Elhízott";
+                link = "https://www.hazipatika.com/betegsegek_a_z/elhizas#:~:text=M%C3%A1sok%20k%C3%B6v%C3%A9rs%C3%A9g%C3%BCk%20miatt%20kialakult%20%C3%B6n%C3%A9rt%C3%A9kel%C3%A9si%20zavarukat";
+            }
+
+            document.getElementById('result').innerHTML = `Az Ön BMI értéke: ${bmi.toFixed(2)}<br>Kategória: <a href="${link}">${category}</a>`;
+        }
+    </script>
+</body>
+</html>
